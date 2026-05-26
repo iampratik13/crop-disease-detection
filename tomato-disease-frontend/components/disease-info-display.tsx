@@ -34,12 +34,12 @@ export function DiseaseInfoDisplay({ disease }: DiseaseInfoDisplayProps) {
       <CardHeader className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
         <div className="flex items-start justify-between">
           <div className="space-y-3 flex-1">
-            <CardTitle className="text-4xl flex items-center gap-4 group">
-              <div className={`p-3 rounded-2xl ${isHealthy ? 'bg-green-100 dark:bg-green-900/30' : 'bg-orange-100 dark:bg-orange-900/30'} group-hover:scale-110 transition-transform duration-300`}>
+            <CardTitle className="text-2xl sm:text-3xl md:text-4xl flex items-center gap-3 sm:gap-4 group">
+              <div className={`p-2 sm:p-3 rounded-xl sm:rounded-2xl ${isHealthy ? 'bg-green-100 dark:bg-green-900/30' : 'bg-orange-100 dark:bg-orange-900/30'} group-hover:scale-110 transition-transform duration-300 shrink-0`}>
                 {isHealthy ? (
-                  <CheckCircle2 className="w-10 h-10 text-green-500 animate-pulse" />
+                  <CheckCircle2 className="w-7 h-7 sm:w-10 sm:h-10 text-green-500 animate-pulse" />
                 ) : (
-                  <AlertTriangle className="w-10 h-10 text-orange-500" />
+                  <AlertTriangle className="w-7 h-7 sm:w-10 sm:h-10 text-orange-500" />
                 )}
               </div>
               <span className="bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent">
@@ -66,7 +66,7 @@ export function DiseaseInfoDisplay({ disease }: DiseaseInfoDisplayProps) {
         </p>
       </CardHeader>
 
-      <CardContent className="space-y-8 p-8">
+      <CardContent className="space-y-6 sm:space-y-8 p-4 sm:p-6 md:p-8">
         {!isHealthy && (
           <Alert className="border-2 border-orange-300 dark:border-orange-700 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20 shadow-lg">
             <AlertTriangle className="h-5 w-5 text-orange-600 dark:text-orange-400" />
@@ -76,7 +76,7 @@ export function DiseaseInfoDisplay({ disease }: DiseaseInfoDisplayProps) {
           </Alert>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           <InfoCard
             icon={<Leaf className="w-6 h-6" />}
             title={t('affectedParts')}
@@ -93,7 +93,7 @@ export function DiseaseInfoDisplay({ disease }: DiseaseInfoDisplayProps) {
             icon={<Calendar className="w-6 h-6" />}
             title={t('seasonalOccurence')}
             content={disease.seasonalOccurrence}
-            className="md:col-span-2"
+            className="md:col-span-2 sm:col-span-2"
             gradient="from-purple-500 to-pink-500"
           />
         </div>
@@ -101,27 +101,27 @@ export function DiseaseInfoDisplay({ disease }: DiseaseInfoDisplayProps) {
         <Separator className="my-8" />
 
         <Tabs defaultValue="symptoms" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 h-auto p-1 bg-gray-100 dark:bg-gray-800 rounded-xl">
-            <TabsTrigger value="symptoms" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900 data-[state=active]:shadow-md rounded-lg py-3 font-semibold">
-              <XCircle className="w-4 h-4 mr-2" />
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto p-1 bg-gray-100 dark:bg-gray-800 rounded-xl gap-1">
+            <TabsTrigger value="symptoms" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900 data-[state=active]:shadow-md rounded-lg py-2.5 sm:py-3 font-semibold text-xs sm:text-sm touch-target">
+              <XCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
               {t('symptomsTab')}
             </TabsTrigger>
-            <TabsTrigger value="causes" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900 data-[state=active]:shadow-md rounded-lg py-3 font-semibold">
-              <Droplet className="w-4 h-4 mr-2" />
+            <TabsTrigger value="causes" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900 data-[state=active]:shadow-md rounded-lg py-2.5 sm:py-3 font-semibold text-xs sm:text-sm touch-target">
+              <Droplet className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
               {t('causesTab')}
             </TabsTrigger>
-            <TabsTrigger value="treatment" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900 data-[state=active]:shadow-md rounded-lg py-3 font-semibold">
-              <Stethoscope className="w-4 h-4 mr-2" />
+            <TabsTrigger value="treatment" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900 data-[state=active]:shadow-md rounded-lg py-2.5 sm:py-3 font-semibold text-xs sm:text-sm touch-target">
+              <Stethoscope className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
               {t('treatmentTab')}
             </TabsTrigger>
-            <TabsTrigger value="prevention" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900 data-[state=active]:shadow-md rounded-lg py-3 font-semibold">
-              <Shield className="w-4 h-4 mr-2" />
+            <TabsTrigger value="prevention" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900 data-[state=active]:shadow-md rounded-lg py-2.5 sm:py-3 font-semibold text-xs sm:text-sm touch-target">
+              <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
               {t('preventionTab')}
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="symptoms" className="mt-4">
-            <ScrollArea className="h-[300px] pr-4">
+            <ScrollArea className="h-[250px] sm:h-[300px] pr-4">
               <div className="space-y-2">
                 <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
                   <XCircle className="w-5 h-5 text-red-500" />
@@ -140,7 +140,7 @@ export function DiseaseInfoDisplay({ disease }: DiseaseInfoDisplayProps) {
           </TabsContent>
 
           <TabsContent value="causes" className="mt-4">
-            <ScrollArea className="h-[300px] pr-4">
+            <ScrollArea className="h-[250px] sm:h-[300px] pr-4">
               <div className="space-y-2">
                 <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
                   <Droplet className="w-5 h-5 text-blue-500" />
@@ -159,7 +159,7 @@ export function DiseaseInfoDisplay({ disease }: DiseaseInfoDisplayProps) {
           </TabsContent>
 
           <TabsContent value="treatment" className="mt-4">
-            <ScrollArea className="h-[300px] pr-4">
+            <ScrollArea className="h-[250px] sm:h-[300px] pr-4">
               <div className="space-y-2">
                 <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
                   <Stethoscope className="w-5 h-5 text-purple-500" />
@@ -185,7 +185,7 @@ export function DiseaseInfoDisplay({ disease }: DiseaseInfoDisplayProps) {
           </TabsContent>
 
           <TabsContent value="prevention" className="mt-4">
-            <ScrollArea className="h-[300px] pr-4">
+            <ScrollArea className="h-[250px] sm:h-[300px] pr-4">
               <div className="space-y-2">
                 <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
                   <Shield className="w-5 h-5 text-green-500" />
@@ -223,7 +223,7 @@ interface InfoCardProps {
 
 function InfoCard({ icon, title, content, className, gradient }: InfoCardProps) {
   return (
-    <div className={`group relative border-2 rounded-xl p-6 space-y-3 overflow-hidden hover:shadow-lg transition-all duration-300 ${className || ''}`}>
+    <div className={`group relative border-2 rounded-lg sm:rounded-xl p-4 sm:p-6 space-y-2 sm:space-y-3 overflow-hidden hover:shadow-lg transition-all duration-300 ${className || ''}`}>
       <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
       <div className="relative flex items-center gap-3">
         <div className={`p-2 rounded-lg bg-gradient-to-br ${gradient} text-white shadow-md`}>

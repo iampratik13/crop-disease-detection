@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { ImageUpload } from '@/components/image-upload';
+import { CameraCapture } from '@/components/camera-capture';
 import { DiseaseInfoDisplay } from '@/components/disease-info-display';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import { DiseaseDetectionService } from '@/lib/api';
 import { DiseaseInfo, getDiseaseInfoTranslated } from '@/lib/disease-data';
-import { Leaf, Loader2, AlertCircle, Sparkles, ArrowRight, CheckCircle, Info, Globe } from 'lucide-react';
+import { Leaf, Loader2, AlertCircle, Sparkles, ArrowRight, CheckCircle, Info, Globe, Upload, Camera } from 'lucide-react';
 import { useLanguage, LanguageCode } from '@/lib/LanguageContext';
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
   const [detectedDisease, setDetectedDisease] = useState<DiseaseInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [inputMode, setInputMode] = useState<'upload' | 'camera'>('upload');
 
   const { t, language, setLanguage } = useLanguage();
 
@@ -87,33 +89,33 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-green-200/20 dark:bg-green-500/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-200/20 dark:bg-emerald-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-teal-200/20 dark:bg-teal-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute top-0 left-1/4 w-48 sm:w-96 h-48 sm:h-96 bg-green-200/20 dark:bg-green-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-1/4 w-48 sm:w-96 h-48 sm:h-96 bg-emerald-200/20 dark:bg-emerald-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 w-48 sm:w-96 h-48 sm:h-96 bg-teal-200/20 dark:bg-teal-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
       {/* Header */}
-      <header className="border-b bg-white/80 dark:bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-4 py-5">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl shadow-lg shadow-green-500/30 animate-float">
-                <Leaf className="w-7 h-7 text-white" />
+      <header className="border-b bg-white/80 dark:bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 shadow-sm safe-area-top">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-5">
+          <div className="flex items-center justify-between gap-2 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+              <div className="p-2 sm:p-3 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl sm:rounded-2xl shadow-lg shadow-green-500/30 animate-float shrink-0">
+                <Leaf className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
               </div>
-              <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
+              <div className="min-w-0">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent truncate">
                   {t('appTitle')}
                 </h1>
-                <p className="text-sm text-muted-foreground flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" />
+                <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1.5 truncate">
+                  <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
                   {t('appSubtitle')}
                 </p>
               </div>
             </div>
             
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 bg-white/50 dark:bg-gray-800/50 p-1.5 rounded-xl border border-gray-200 dark:border-gray-700">
-                <Globe className="w-4 h-4 text-gray-500 ml-1" />
+            <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+              <div className="flex items-center gap-1 sm:gap-2 bg-white/50 dark:bg-gray-800/50 p-1 sm:p-1.5 rounded-lg sm:rounded-xl border border-gray-200 dark:border-gray-700">
+                <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500 ml-0.5 sm:ml-1" />
                 <select
                   value={language}
                   onChange={(e) => {
@@ -123,7 +125,7 @@ export default function Home() {
                       if (newInfo) setDetectedDisease(newInfo);
                     }
                   }}
-                  className="bg-transparent text-sm font-medium border-none outline-none focus:ring-0 text-gray-700 dark:text-gray-300 cursor-pointer"
+                  className="bg-transparent text-xs sm:text-sm font-medium border-none outline-none focus:ring-0 text-gray-700 dark:text-gray-300 cursor-pointer touch-target"
                 >
                   <option value="en">English</option>
                   <option value="mr">मराठी</option>
@@ -142,27 +144,27 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-12 max-w-7xl relative z-10">
+      <main className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 md:py-12 max-w-7xl relative z-10">
         {/* Hero Section */}
-        <div className="text-center mb-12 animate-fadeIn">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 dark:from-green-400 dark:via-emerald-400 dark:to-teal-400 bg-clip-text text-transparent">
+        <div className="text-center mb-6 sm:mb-8 md:mb-12 animate-fadeIn">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 dark:from-green-400 dark:via-emerald-400 dark:to-teal-400 bg-clip-text text-transparent mobile-text-wrap px-2">
             {t('heroTitle')}
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
             {t('heroSubtitle')}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
           {/* Left Column - Upload Section */}
-          <div className="space-y-6 animate-slideInLeft">
-            <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-green-100 dark:border-green-900/50 hover:shadow-green-500/10 transition-all duration-300">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold flex items-center gap-3">
-                  <div className="p-2 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg shadow-lg">
-                    <Sparkles className="w-5 h-5 text-white" />
+          <div className="space-y-4 sm:space-y-6 animate-slideInLeft">
+            <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-2xl border border-green-100 dark:border-green-900/50 hover:shadow-green-500/10 transition-all duration-300">
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold flex items-center gap-2 sm:gap-3">
+                  <div className="p-1.5 sm:p-2 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg shadow-lg shrink-0">
+                    <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                   </div>
-                  {t('uploadAnalyzeTitle')}
+                  <span className="truncate">{t('uploadAnalyzeTitle')}</span>
                 </h2>
                 {selectedImage && (
                   <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 dark:bg-green-950/50 rounded-full">
@@ -171,13 +173,63 @@ export default function Home() {
                   </div>
                 )}
               </div>
-              
-              <ImageUpload
-                onImageSelect={handleImageSelect}
-                selectedImage={selectedImage}
-                onClear={handleClear}
-                disabled={isAnalyzing}
-              />
+
+              {/* Mode Toggle Tabs */}
+              <div className="flex mb-4 sm:mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg sm:rounded-xl p-1 sm:p-1.5 gap-1">
+                <button
+                  onClick={() => { if (!isAnalyzing) setInputMode('upload'); }}
+                  className={`
+                    flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 py-2.5 sm:py-3 px-3 sm:px-4 rounded-md sm:rounded-lg text-xs sm:text-sm font-semibold 
+                    transition-all duration-300 relative overflow-hidden touch-target
+                    ${inputMode === 'upload'
+                      ? 'bg-white dark:bg-gray-700 text-green-700 dark:text-green-300 shadow-lg shadow-green-500/10'
+                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-700/50'
+                    }
+                  `}
+                  disabled={isAnalyzing}
+                >
+                  <Upload className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                  {t('uploadTab')}
+                  {inputMode === 'upload' && (
+                    <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full" />
+                  )}
+                </button>
+                <button
+                  onClick={() => { if (!isAnalyzing) setInputMode('camera'); }}
+                  className={`
+                    flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 py-2.5 sm:py-3 px-3 sm:px-4 rounded-md sm:rounded-lg text-xs sm:text-sm font-semibold 
+                    transition-all duration-300 relative overflow-hidden touch-target
+                    ${inputMode === 'camera'
+                      ? 'bg-white dark:bg-gray-700 text-green-700 dark:text-green-300 shadow-lg shadow-green-500/10'
+                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-700/50'
+                    }
+                  `}
+                  disabled={isAnalyzing}
+                >
+                  <Camera className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                  {t('cameraTab')}
+                  {inputMode === 'camera' && (
+                    <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full" />
+                  )}
+                </button>
+              </div>
+
+              {/* Conditional Rendering: Upload or Camera */}
+              {inputMode === 'upload' ? (
+                <ImageUpload
+                  onImageSelect={handleImageSelect}
+                  selectedImage={selectedImage}
+                  onClear={handleClear}
+                  disabled={isAnalyzing}
+                />
+              ) : (
+                <CameraCapture
+                  onImageSelect={handleImageSelect}
+                  selectedImage={selectedImage}
+                  onClear={handleClear}
+                  disabled={isAnalyzing}
+                />
+              )}
 
               {selectedImage && !detectedDisease && (
                 <div className="mt-6 space-y-4">
@@ -222,7 +274,7 @@ export default function Home() {
             </div>
 
             {/* Instructions */}
-            <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950/30 dark:via-indigo-950/30 dark:to-purple-950/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-6 shadow-lg">
+            <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950/30 dark:via-indigo-950/30 dark:to-purple-950/30 border border-blue-200 dark:border-blue-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-200/30 dark:bg-blue-500/10 rounded-full blur-2xl"></div>
               <div className="relative">
                 <div className="flex items-center gap-2 mb-4">
@@ -256,7 +308,7 @@ export default function Home() {
           </div>
 
           {/* Right Column - Results Section */}
-          <div className="space-y-6 animate-slideInRight">
+          <div className="space-y-4 sm:space-y-6 animate-slideInRight">
             {detectedDisease ? (
               <div className="space-y-4 animate-fadeIn">
                 <DiseaseInfoDisplay disease={detectedDisease} />
@@ -272,13 +324,13 @@ export default function Home() {
                 </Button>
               </div>
             ) : (
-              <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl p-16 shadow-2xl border border-gray-100 dark:border-gray-800 flex items-center justify-center min-h-[600px] hover:shadow-green-500/5 transition-all duration-300">
+              <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-8 sm:p-12 md:p-16 shadow-2xl border border-gray-100 dark:border-gray-800 flex items-center justify-center min-h-[300px] sm:min-h-[400px] md:min-h-[600px] hover:shadow-green-500/5 transition-all duration-300">
                 <div className="text-center space-y-6 max-w-md animate-pulse-slow">
-                  <div className="mx-auto w-24 h-24 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-3xl flex items-center justify-center shadow-lg">
-                    <Leaf className="w-12 h-12 text-green-600 dark:text-green-400 animate-float" />
+                  <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl sm:rounded-3xl flex items-center justify-center shadow-lg">
+                    <Leaf className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-green-600 dark:text-green-400 animate-float" />
                   </div>
                   <div className="space-y-2">
-                    <h3 className="text-2xl font-bold text-gray-700 dark:text-gray-300">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-700 dark:text-gray-300">
                       {t('readyToAnalyzeTitle')}
                     </h3>
                     <p className="text-muted-foreground leading-relaxed">
@@ -296,7 +348,7 @@ export default function Home() {
         </div>
 
         {/* Features Section */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 animate-fadeIn">
+        <div className="mt-8 sm:mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 animate-fadeIn">
           <FeatureCard
             title={t('feature1Title')}
             description={t('feature1Desc')}
@@ -319,18 +371,18 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-20 border-t bg-white/80 dark:bg-gray-900/80 backdrop-blur-md relative z-10">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col items-center gap-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl">
-                <Leaf className="w-5 h-5 text-white" />
+      <footer className="mt-10 sm:mt-16 md:mt-20 border-t bg-white/80 dark:bg-gray-900/80 backdrop-blur-md relative z-10 safe-area-bottom">
+        <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
+          <div className="flex flex-col items-center gap-3 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="p-1.5 sm:p-2 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg sm:rounded-xl">
+                <Leaf className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <span className="font-bold text-lg bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
+              <span className="font-bold text-base sm:text-lg bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
                 {t('appTitle')}
               </span>
             </div>
-            <p className="text-sm text-muted-foreground text-center">
+            <p className="text-xs sm:text-sm text-muted-foreground text-center px-4">
               {t('footerText1')}
             </p>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -347,12 +399,12 @@ export default function Home() {
 
 function FeatureCard({ title, description, icon, gradient }: { title: string; description: string; icon: string; gradient: string }) {
   return (
-    <div className="group relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-800 overflow-hidden hover:-translate-y-2">
+    <div className="group relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-800 overflow-hidden hover:-translate-y-2">
       <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
       <div className="relative">
-        <div className="text-5xl mb-4 transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">{icon}</div>
-        <h3 className="font-bold text-xl mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-green-600 group-hover:to-emerald-600 transition-all duration-300">{title}</h3>
-        <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
+        <div className="text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4 transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">{icon}</div>
+        <h3 className="font-bold text-base sm:text-lg md:text-xl mb-2 sm:mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-green-600 group-hover:to-emerald-600 transition-all duration-300">{title}</h3>
+        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{description}</p>
       </div>
       <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
     </div>

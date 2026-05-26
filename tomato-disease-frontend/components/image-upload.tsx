@@ -87,7 +87,7 @@ export function ImageUpload({ onImageSelect, selectedImage, onClear, disabled }:
           onDrop={handleDrop}
           className={`
             relative cursor-pointer transition-all duration-300
-            border-2 border-dashed rounded-xl p-16
+            border-2 border-dashed rounded-xl p-8 sm:p-12 md:p-16
             ${isDragging 
               ? 'border-green-500 bg-green-50 dark:bg-green-950/30 scale-[1.02] shadow-lg shadow-green-500/20' 
               : 'border-gray-300 dark:border-gray-700 hover:border-green-400 dark:hover:border-green-600 hover:bg-green-50/50 dark:hover:bg-green-950/20'
@@ -106,20 +106,20 @@ export function ImageUpload({ onImageSelect, selectedImage, onClear, disabled }:
           
           <div className="flex flex-col items-center justify-center text-center space-y-6">
             <div className={`
-              rounded-2xl p-6 transition-all duration-300
+              rounded-xl sm:rounded-2xl p-4 sm:p-6 transition-all duration-300
               ${isDragging 
                 ? 'bg-gradient-to-br from-green-500 to-emerald-500 text-white scale-110 shadow-xl shadow-green-500/50' 
                 : 'bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-600 dark:text-green-400'
               }
             `}>
-              <Upload className="w-12 h-12" strokeWidth={2.5} />
+              <Upload className="w-8 h-8 sm:w-12 sm:h-12" strokeWidth={2.5} />
             </div>
             
             <div className="space-y-3">
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200">
                 {isDragging ? t('dropHere') : t('uploadImage')}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 max-w-sm leading-relaxed">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-sm leading-relaxed">
                 {isDragging 
                   ? t('releaseToUpload')
                   : t('dragDropText')
